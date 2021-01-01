@@ -1,7 +1,14 @@
-import 'package:amui_digital_event_app/screens/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+
+import 'providers/https.dart';
 import 'screens/bottom_nav_bar.dart';
+import 'screens/notices.dart';
+import 'screens/holidays.dart';
+import 'screens/events.dart';
+import 'screens/settings.dart';
 import 'screens/home.dart';
 
 void main() {
@@ -11,11 +18,28 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          accentColor: Colors.greenAccent, primaryColor: Colors.green),
-      home: Home(),
+    return MultiProvider(
+      providers: [
+        Provider<Https>(create: (_) => Https()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            textTheme: GoogleFonts.latoTextTheme(
+              Theme.of(context).textTheme,
+            ),
+            accentColor: Colors.greenAccent,
+            primaryColor: Colors.green),
+        routes: {
+          Home.routeName: (context) => Home(),
+          Notices.routeName: (context) => Notices(),
+          Events.routeName: (context) => Events(),
+          Holidays.routeName: (context) => Holidays(),
+          Settings.routeName: (context) => Settings(),
+          BottomNavBar.routeName: (context) => BottomNavBar(),
+        },
+        home: BottomNavBar(),
+      ),
     );
   }
 }

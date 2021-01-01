@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 
-class Notice extends StatelessWidget {
+class Notices extends StatelessWidget {
+    static const routeName = 'notices-screen';
+
   @override
   Widget build(BuildContext context) {
     return  Center(child: Text('hello'),)
