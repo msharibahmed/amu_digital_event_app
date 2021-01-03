@@ -1,8 +1,13 @@
-import 'package:amui_digital_event_app/widgets/bottom_sheet.dart';
+import 'dart:ui';
+
+import 'package:amui_digital_event_app/providers/https.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
+import '../widgets/bottom_sheet/bottom_sheet.dart';
 import '../widgets/event_card.dart';
 
 class Home extends StatefulWidget {
@@ -16,6 +21,8 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    Provider.of<Https>(context, listen: false).getEvents();
+
     _calendarController = CalendarController();
   }
 
@@ -26,18 +33,40 @@ class _HomeState extends State<Home> {
   }
 
   Map<DateTime, List<dynamic>> events = {
+    DateTime.parse("2020-12-11 20:18:04Z"): [1, 3,4,5,6,7,8,9],
     DateTime.now(): [Text('hello')],
-    DateTime.parse("2020-12-12 20:18:04Z"): [1, 2]
   };
   Map<DateTime, List<dynamic>> holidays = {
-    DateTime.now(): [Text('hello'), 2, 3],
+    DateTime.now(): [Text('hello'), 2, 3,4,5,6,7,8,9],
     DateTime.parse("2020-12-12 20:18:04Z"): [1, 2]
   };
   var calendarSize = {
     CalendarFormat.month: 'Compact',
     CalendarFormat.week: 'Full Stretched'
   };
-
+  TabBar _tabBar = TabBar(tabs: [
+    Padding(
+      padding: const EdgeInsets.only(bottom: 3.0),
+      child: Text(
+        'Upcoming',
+        style: TextStyle(color: Colors.black),
+      ),
+    ),
+    Padding(
+      padding: const EdgeInsets.only(bottom: 3.0),
+      child: Text(
+        'Ongoing',
+        style: TextStyle(color: Colors.black),
+      ),
+    ),
+    Padding(
+      padding: const EdgeInsets.only(bottom: 3.0),
+      child: Text(
+        'Happened',
+        style: TextStyle(color: Colors.black),
+      ),
+    ),
+  ]);
   @override
   Widget build(BuildContext context) {
     var mq = MediaQuery.of(context).size;
@@ -66,15 +95,18 @@ class _HomeState extends State<Home> {
                     children: [
                       TableCalendar(
                         onDaySelected: (selectedDate, __, ___) {
-                          showModalBottomSheet(
+                          showBarModalBottomSheet(
                               context: context,
-                              builder: (context) => EventBottomSheet());
+                              builder: (context) =>
+                                  EventBottomSheet(selectedDate: selectedDate));
                         },
                         initialCalendarFormat: CalendarFormat.month,
                         formatAnimation: FormatAnimation.scale,
                         availableCalendarFormats: calendarSize,
                         availableGestures: AvailableGestures.all,
                         calendarController: _calendarController,
+                        events: events,
+                        holidays: holidays,
                       ),
                       ConstrainedBox(
                         constraints: BoxConstraints(
@@ -88,40 +120,36 @@ class _HomeState extends State<Home> {
                               decoration: BoxDecoration(
                                 color: Colors.pink[50],
                               ),
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 16),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.only(left: 20, top: 10),
-                                      child: Text(
-                                        'Upcoming Events',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 22),
+                              child: DefaultTabController(
+                                child: Scaffold(
+                                  backgroundColor: Colors.indigo[100],
+                                  appBar: AppBar(
+                                      centerTitle: false,
+                                      title: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 15.0),
+                                        child: Text(
+                                          'Events',
+                                          style: TextStyle(
+                                              letterSpacing: 2,
+                                              color: Colors.white,
+                                              fontSize: 25),
+                                        ),
                                       ),
-                                    ),
-                                    Divider(
-                                      color: Colors.black,
-                                      endIndent: mq.width * 0.54,
-                                      indent: mq.width * 0.05,
-                                    ),
-                                    ConstrainedBox(
-                                      constraints: BoxConstraints(
-                                          maxHeight: mq.height * 0.6291,
-                                          minHeight: mq.height * 0.1),
-                                      // maxHeight: mq.height * 0.2,
-                                      // maxHeight: mq.height * 0.38785,
-                                      child: ListView.builder(
-                                        itemBuilder: (context, index) =>
-                                            EventCard(index: index),
-                                        itemCount: 100,
-                                      ),
-                                    )
-                                  ],
+                                      backgroundColor: Colors.indigo[200],
+                                      bottom: PreferredSize(
+                                        child: _tabBar,
+                                        preferredSize: Size.fromHeight(
+                                          _tabBar.preferredSize.height - 50,
+                                        ),
+                                      )),
+                                  body: TabBarView(children: [
+                                    UpComingEvents(mq: mq),
+                                    OngoingEvents(mq: mq),
+                                    HappenedEvents(mq: mq),
+                                  ]),
                                 ),
+                                length: 3,
                               )),
                         ),
                       )
@@ -132,5 +160,113 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+}
+
+class UpComingEvents extends StatelessWidget {
+  const UpComingEvents({
+    @required this.mq,
+  });
+
+  final Size mq;
+
+  @override
+  Widget build(BuildContext context) {
+    final data = Provider.of<Https>(context);
+    return data.upcomingEventList.length == 0
+        ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Text('No Upcoming Events!'),
+                Image.network(
+                  'https://www.clubr.in/images/no-events-1.png',
+                  fit: BoxFit.contain,
+                )
+              ],
+            ),
+          )
+        : Padding(
+            padding: EdgeInsets.only(top: 16),
+            child: ListView.builder(
+              itemBuilder: (context, index) => EventCard(
+                index: index,
+                data: data.upcomingEventList,
+              ),
+              itemCount: data.upcomingEventList.length,
+            ),
+          );
+  }
+}
+
+class HappenedEvents extends StatelessWidget {
+  const HappenedEvents({
+    @required this.mq,
+  });
+
+  final Size mq;
+
+  @override
+  Widget build(BuildContext context) {
+    final data = Provider.of<Https>(context);
+    return data.happenedEventList.length == 0
+        ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Text('No Happened Events!'),
+                Image.network(
+                  'https://www.clubr.in/images/no-events-1.png',
+                  fit: BoxFit.contain,
+                )
+              ],
+            ),
+          )
+        : Padding(
+            padding: EdgeInsets.only(top: 16),
+            child: ListView.builder(
+              itemBuilder: (context, index) => EventCard(
+                index: index,
+                data: data.happenedEventList,
+              ),
+              itemCount: data.happenedEventList.length,
+            ),
+          );
+  }
+}
+
+class OngoingEvents extends StatelessWidget {
+  const OngoingEvents({
+    @required this.mq,
+  });
+
+  final Size mq;
+
+  @override
+  Widget build(BuildContext context) {
+    final data = Provider.of<Https>(context);
+    return data.ongoingEventList.length == 0
+        ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Text('No Ongoing Events!'),
+                Image.network(
+                  'https://www.clubr.in/images/no-events-1.png',
+                  fit: BoxFit.contain,
+                )
+              ],
+            ),
+          )
+        : Padding(
+            padding: EdgeInsets.only(top: 16),
+            child: ListView.builder(
+              itemBuilder: (context, index) => EventCard(
+                index: index,
+                data: data.ongoingEventList,
+              ),
+              itemCount: data.ongoingEventList.length,
+            ),
+          );
   }
 }

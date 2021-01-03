@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<Https>(create: (_) => Https()),
+        ChangeNotifierProvider<Https>(create: (_) => Https()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
             textTheme: GoogleFonts.latoTextTheme(
               Theme.of(context).textTheme,
             ),
-            accentColor: Colors.greenAccent,
-            primaryColor: Colors.green),
+            accentColor: Colors.indigo,
+            primaryColor: Colors.orange),
         routes: {
           Home.routeName: (context) => Home(),
           Notices.routeName: (context) => Notices(),

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'home.dart';
 import 'notices.dart';
-import 'events.dart';
 import 'settings.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -15,13 +14,7 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  var screens = {
-    0: Home(),
-    1: Events(),
-    2: Holidays(),
-    3: Notices(),
-    4: Settings()
-  };
+  var screens = {0: Home(), 1: Holidays(), 2: Notices(), 3: Settings()};
   var body = 0;
 
   @override
@@ -29,14 +22,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return SafeArea(
       top: false,
       child: Scaffold(
-        // appBar: AppBar(
-        //   elevation: 0,
-
         backgroundColor: Colors.indigo[900],
-        //   title: Text('AMU Digital Event'),
-        // ),
         bottomNavigationBar: SizedBox(
-          height: 50,
+          height: 53,
           child: BottomNavigationBar(
             onTap: (index) {
               setState(() {
@@ -49,39 +37,39 @@ class _BottomNavBarState extends State<BottomNavBar> {
             selectedItemColor: Colors.black,
             unselectedItemColor: Colors.black,
             showSelectedLabels: true,
-
-            
             unselectedFontSize: 15,
             type: BottomNavigationBarType.shifting,
             items: [
               BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.home,
-                    color: Colors.black,
-                  ),
-                  label: 'Home'),
-              BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.event,
-                    color: Colors.black,
+                  icon: Image.asset(
+                    'assets/icons/events.png',
+                    fit: BoxFit.contain,
+                    width: 23,
+                    height: 23,
                   ),
                   label: 'Events'),
               BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.ac_unit,
-                    color: Colors.black,
+                  icon: Image.asset(
+                    'assets/icons/holiday.png',
+                    fit: BoxFit.contain,
+                    width: 23,
+                    height: 23,
                   ),
                   label: 'Holidays'),
               BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.flight_takeoff_sharp,
-                    color: Colors.black,
+                  icon: Image.asset(
+                    'assets/icons/notice.png',
+                    fit: BoxFit.contain,
+                    width: 23,
+                    height: 23,
                   ),
                   label: 'Notices'),
               BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.settings,
-                    color: Colors.black,
+                  icon: Image.asset(
+                    'assets/icons/settings.png',
+                    fit: BoxFit.contain,
+                    width: 23,
+                    height: 23,
                   ),
                   label: 'Setting'),
             ],
