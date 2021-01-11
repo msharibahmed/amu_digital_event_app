@@ -1,9 +1,10 @@
-import 'package:amui_digital_event_app/providers/https.dart';
-import 'package:amui_digital_event_app/widgets/holiday_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Holidays extends StatelessWidget {
+import '../providers/https.dart';
+import '../widgets/holiday_card.dart';
+
+class Exams extends StatelessWidget {
   static const routeName = 'notice-screen';
 
   @override
@@ -18,7 +19,7 @@ class Holidays extends StatelessWidget {
          child:  Padding(
             padding: const EdgeInsets.only(left:35,top: 30),
             child: Text(
-              'Holidays',
+              'Exams',
               style: TextStyle(color: Colors.white,fontSize: 35,letterSpacing: 2),
             )),),
         ClipRRect(

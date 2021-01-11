@@ -1,5 +1,7 @@
+import 'package:amui_digital_event_app/providers/https.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import 'bottomsheet_event_card.dart';
 import 'bottomsheet_holidays_card.dart';
@@ -10,7 +12,9 @@ class EventBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(selectedDate);
+    // print(selectedDate);
+    final prov = Provider.of<Https>(context, listen: false);
+    print(prov.selectedDayEvents(selectedDate));
     return Container(
       height: MediaQuery.of(context).size.height * 0.65,
       padding: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
@@ -57,7 +61,10 @@ class EventBottomSheet extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'Events' + '(10)',
+              'Events' +
+                  '(' +
+                  prov.selectedDayEvents(selectedDate).length.toString() +
+                  ')',
               style: TextStyle(
                   letterSpacing: 1, fontSize: 20, fontWeight: FontWeight.w500),
             ),
@@ -66,16 +73,24 @@ class EventBottomSheet extends StatelessWidget {
               color: Colors.grey[200],
               width: double.infinity,
               height: 120,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) =>
-                    BottomSheetEventCard(index: index),
-                itemCount: 100,
-              )),
-              SizedBox(height: 10),
+              child: prov.selectedDayEvents(selectedDate).length == 0
+                  ? Center(
+                      child: Text('No Events!'),
+                    )
+                  : ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) => BottomSheetEventCard(
+                          index: index, selectedDate: selectedDate),
+                      itemCount: prov.selectedDayEvents(selectedDate).length,
+                    )),
+          SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text('Holidays' + '(12)',
+            child: Text(
+                'Holidays' +
+                    '(' +
+                    prov.selectedDayHoliday(selectedDate).length.toString() +
+                    ')',
                 style: TextStyle(
                     letterSpacing: 1,
                     fontSize: 20,
@@ -85,12 +100,16 @@ class EventBottomSheet extends StatelessWidget {
               color: Colors.grey[200],
               width: double.infinity,
               height: 120,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) =>
-                    BottomSheetHolidayCard(index: index),
-                itemCount: 100,
-              )),
+              child: prov.selectedDayHoliday(selectedDate).length == 0
+                  ? Center(
+                      child: Text('No Holidays!'),
+                    )
+                  : ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) => BottomSheetHolidayCard(
+                          index: index, selectedDate: selectedDate),
+                      itemCount: prov.selectedDayHoliday(selectedDate).length,
+                    )),
         ],
       ),
     );

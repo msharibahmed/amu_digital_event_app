@@ -1,37 +1,105 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 
+import '../models/exam_model.dart';
+import '../models/holiday_model.dart';
 import '../models/event_model.dart';
 
 class Https with ChangeNotifier {
+  //event list
+
   List<EventModel> _eventsList = [];
+
+  List<EventModel> get eventsList {
+    return [..._eventsList];
+  }
+
+  //upcoming events
   List<EventModel> get upcomingEventList {
     List<EventModel> tempList = [];
-    _eventsList.forEach((element) {if(element.startDate.isAfter(DateTime.now())){
-      tempList.add(element);
-    }});
+    _eventsList.forEach((element) {
+      if (element.startDate.isAfter(DateTime.now())) {
+        tempList.add(element);
+      }
+    });
     return [...tempList];
   }
 
+//ongoing events
   List<EventModel> get ongoingEventList {
     List<EventModel> tempList = [];
-_eventsList.forEach((element) {if (element.startDate.isBefore(DateTime.now()) &&
+    _eventsList.forEach((element) {
+      if (element.startDate.isBefore(DateTime.now()) &&
           element.endDate.isAfter(DateTime.now())) {
-      tempList.add(element);
-      } });
-   
+        tempList.add(element);
+      }
+    });
 
     return [...tempList];
   }
 
+//happened events
   List<EventModel> get happenedEventList {
     List<EventModel> tempList = [];
-    _eventsList.forEach((element) {if(element.startDate.isBefore(DateTime.now())){
-      tempList.add(element);
-    }});return [...tempList];
+    _eventsList.forEach((element) {
+      if (element.endDate.isBefore(DateTime.now())) {
+        tempList.add(element);
+      }
+    });
+    return [...tempList];
   }
 
+//holiday list
+  List<HolidayModel> _holidayList = [];
+  List<HolidayModel> get holidayList {
+    return [..._holidayList];
+  }
+
+//exam list
+  List<ExamModel> _examList = [];
+  List<ExamModel> get examList {
+    return [..._examList];
+  }
+
+  Map<DateTime, List<dynamic>> get eventsCalendarMarker {
+    Map<DateTime, List<dynamic>> temp = Map();
+
+    for (var i = 0; i < _eventsList.length; i++) {
+      temp[_eventsList[i].startDate] = [i];
+    }
+    return temp;
+  }
+
+  List<EventModel> selectedDayEvents(DateTime selectedDate) {
+    // print(selectedDate);
+    List<EventModel> temp = [];
+    _eventsList.forEach((event) {
+      var eventDate = event.startDate;
+      if (selectedDate.day == eventDate.day &&
+          selectedDate.month == eventDate.month &&
+          selectedDate.year == eventDate.year) {
+        temp.add(event);
+      }
+    });
+    // print(temp);
+    return temp;
+  }
+
+  List<HolidayModel> selectedDayHoliday(DateTime selectedDate) {
+    List<HolidayModel> temp = [];
+    _holidayList.forEach((holiday) {
+       var holidayDate = holiday.startDate;
+      if (selectedDate.day == holidayDate.day &&
+          selectedDate.month == holidayDate.month &&
+          selectedDate.year == holidayDate.year) {
+        temp.add(holiday);
+      }
+    });
+    return temp;
+  }
+
+//get all events call method
   Future<void> getEvents() async {
     const url = "https://controllerexams.herokuapp.com/api/v1/calender/events";
     try {
@@ -56,6 +124,60 @@ _eventsList.forEach((element) {if (element.startDate.isBefore(DateTime.now()) &&
       print(_eventsList);
     } catch (error) {
       print(error.toString() + 'error in getEvents http call ');
+    }
+    notifyListeners();
+  }
+
+//get all holidays call method
+  Future<void> getHolidays() async {
+    const url =
+        "https://controllerexams.herokuapp.com/api/v1/calender/holidays";
+    try {
+      final response = await http.get(url);
+      final resBody = jsonDecode(response.body);
+      // print(resBody);
+
+      List<HolidayModel> loadedHolidays = [];
+      resBody.forEach((holiday) {
+        loadedHolidays.add(HolidayModel(
+            id: holiday['id'],
+            name: holiday['name'],
+            startDate: DateTime.parse(holiday['start_date']),
+            endDate: DateTime.parse(holiday['end_date']),
+            url: holiday['url']));
+      });
+      _holidayList = loadedHolidays;
+      print(_holidayList);
+    } catch (error) {
+      print(error.toString() + 'error in getHolidays http call ');
+    }
+    notifyListeners();
+  }
+
+//get all exams call method
+
+  Future<void> getExams() async {
+    const url = "https://controllerexams.herokuapp.com/api/v1/calender/exams";
+    try {
+      final response = await http.get(url);
+      final resBody = jsonDecode(response.body);
+      // print(resBody);
+
+      List<ExamModel> loadedExams = [];
+      resBody.forEach((exam) {
+        loadedExams.add(ExamModel(
+            id: exam['id'],
+            name: exam['name'],
+            department: exam['department'],
+            faculty: exam['faculty'],
+            course: exam['course'],
+            courseCode: exam['course_code'],
+            date: DateTime.parse(exam['date'])));
+      });
+      _examList = loadedExams;
+      print(_examList);
+    } catch (error) {
+      print(error.toString() + 'error in getExams http call ');
     }
     notifyListeners();
   }

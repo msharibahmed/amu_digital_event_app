@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-
 import 'providers/https.dart';
 import 'screens/bottom_nav_bar.dart';
 import 'screens/notices.dart';
@@ -11,7 +10,7 @@ import 'screens/events.dart';
 import 'screens/settings.dart';
 import 'screens/home.dart';
 
-void main() {
+void main()  {
   runApp(MyApp());
 }
 

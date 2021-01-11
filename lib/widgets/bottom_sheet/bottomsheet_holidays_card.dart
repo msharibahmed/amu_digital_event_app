@@ -1,10 +1,16 @@
+import 'package:amui_digital_event_app/providers/https.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class BottomSheetHolidayCard extends StatelessWidget {
   final int index;
-  BottomSheetHolidayCard({this.index});
+  final DateTime selectedDate;
+  BottomSheetHolidayCard({@required this.index, @required this.selectedDate});
   @override
   Widget build(BuildContext context) {
+    final prov = Provider.of<Https>(context,listen: false).selectedDayHoliday(selectedDate);
+
     return Card(
       elevation: 5,
       margin: const EdgeInsets.all(8.0),
@@ -39,7 +45,7 @@ class BottomSheetHolidayCard extends StatelessWidget {
                     child: Padding(
                         padding: const EdgeInsets.only(left: 4.0, right: 4),
                         child: Text(
-                          'Ram Panchanami',
+                          prov[index].name,
                           overflow: TextOverflow.fade,
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w600),
@@ -60,22 +66,24 @@ class BottomSheetHolidayCard extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 4.0, top: 0, bottom: 2),
-                child: Text('From: ' + '12-01-2020',
+                child: Text('From: ' + DateFormat('dd-MM-yyy').format(prov[index].startDate),
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w200,
                         color: Colors.grey)),
-              ),SizedBox(
+              ),
+              SizedBox(
                 height: 3,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 4.0, top: 4, bottom: 0),
-                child: Text('To: ' + '15-01-2020',
+                child: Text('To: ' + DateFormat('dd-MM-yyy').format(prov[index].endDate),
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w200,
                         color: Colors.grey)),
-              ),SizedBox(
+              ),
+              SizedBox(
                 height: 5,
               ),
             ],
