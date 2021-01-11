@@ -18,12 +18,12 @@ class Exams extends StatelessWidget {
          height: mq.height*0.1,
          child:  Padding(
             padding: const EdgeInsets.only(left:35,top: 30),
-            child: Text(
+            child:const Text(
               'Exams',
-              style: TextStyle(color: Colors.white,fontSize: 35,letterSpacing: 2),
+              style:const TextStyle(color: Colors.white,fontSize: 35,letterSpacing: 2),
             )),),
         ClipRRect(
-          borderRadius: BorderRadius.only(
+          borderRadius:const BorderRadius.only(
               topLeft: Radius.circular(40), topRight: Radius.circular(40)),
           child: Container(
               decoration: BoxDecoration(
@@ -37,7 +37,7 @@ class Exams extends StatelessWidget {
                         maxHeight: mq.height*0.826,
                        ),
                     child: ClipRRect(
-                        borderRadius: BorderRadius.only(
+                        borderRadius:const BorderRadius.only(
                             topLeft: Radius.circular(40),
                             topRight: Radius.circular(40)),
                         child: ListView.builder(

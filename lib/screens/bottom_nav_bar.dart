@@ -45,12 +45,19 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
+    const bottomNavNames = [
+      {'events': 'Events'},
+      {'holiday': 'Holidays'},
+      {'notice': 'Notices'},
+      {'exam': 'Exams'},
+      {'settings': 'Setting'}
+    ];
     return SafeArea(
       top: false,
       child: Scaffold(
         appBar: _loading
             ? AppBar(
-                title: Text('Gathering Data, Please Wait....'),
+                title: const Text('Gathering Data, Please Wait....'),
                 centerTitle: true,
                 elevation: 0,
                 backgroundColor: Colors.transparent,
@@ -58,66 +65,31 @@ class _BottomNavBarState extends State<BottomNavBar> {
             : null,
         backgroundColor: _loading ? Colors.white : Colors.indigo[900],
         bottomNavigationBar: SizedBox(
-          height: 53,
-          child: BottomNavigationBar(
-            onTap: (index) {
-              setState(() {
-                body = index;
-              });
-            },
-            currentIndex: body,
-            iconSize: 20,
-            selectedFontSize: 15,
-            // backgroundColor: Colors.indigoAccent,
-            selectedItemColor: Colors.indigo,
-            unselectedItemColor: Colors.black,
-            showSelectedLabels: true,
-            unselectedFontSize: 15,
-            type: BottomNavigationBarType.shifting,
-            items: [
-              BottomNavigationBarItem(
-                  icon: Image.asset(
-                    'assets/icons/events.png',
-                    fit: BoxFit.contain,
-                    width: 23,
-                    height: 23,
-                  ),
-                  label: 'Events'),
-              BottomNavigationBarItem(
-                  icon: Image.asset(
-                    'assets/icons/holiday.png',
-                    fit: BoxFit.contain,
-                    width: 23,
-                    height: 23,
-                  ),
-                  label: 'Holidays'),
-              BottomNavigationBarItem(
-                  icon: Image.asset(
-                    'assets/icons/notice.png',
-                    fit: BoxFit.contain,
-                    width: 23,
-                    height: 23,
-                  ),
-                  label: 'Notices'),
-              BottomNavigationBarItem(
-                  icon: Image.asset(
-                    'assets/icons/exam.png',
-                    fit: BoxFit.contain,
-                    width: 23,
-                    height: 23,
-                  ),
-                  label: 'Exam'),
-              BottomNavigationBarItem(
-                  icon: Image.asset(
-                    'assets/icons/settings.png',
-                    fit: BoxFit.contain,
-                    width: 23,
-                    height: 23,
-                  ),
-                  label: 'Setting'),
-            ],
-          ),
-        ),
+            height: 53,
+            child: BottomNavigationBar(
+                onTap: (index) {
+                  setState(() {
+                    body = index;
+                  });
+                },
+                currentIndex: body,
+                iconSize: 20,
+                selectedFontSize: 15,
+                selectedItemColor: Colors.indigo,
+                unselectedItemColor: Colors.black,
+                showSelectedLabels: true,
+                unselectedFontSize: 15,
+                type: BottomNavigationBarType.shifting,
+                items: (bottomNavNames)
+                    .map((iteration) => BottomNavigationBarItem(
+                        icon: Image.asset(
+                          'assets/icons/' + iteration.keys.toList()[0] + '.png',
+                          fit: BoxFit.contain,
+                          width: 23,
+                          height: 23,
+                        ),
+                        label: iteration.values.toList()[0]))
+                    .toList())),
         body: _loading
             ? FlareActor(
                 "assets/flares/wait.flr",

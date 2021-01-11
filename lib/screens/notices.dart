@@ -6,7 +6,7 @@ class Notices extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Center(child: Text('hello'),)
+    return const Center(child:const Text('hello'),)
       
     ;
   }

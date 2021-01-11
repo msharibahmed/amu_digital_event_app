@@ -1,7 +1,9 @@
-import 'package:amui_digital_event_app/providers/https.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import '../../providers/https.dart';
+
 
 class BottomSheetHolidayCard extends StatelessWidget {
   final int index;
@@ -15,7 +17,7 @@ class BottomSheetHolidayCard extends StatelessWidget {
       elevation: 5,
       margin: const EdgeInsets.all(8.0),
       child: ClipRRect(
-        borderRadius: BorderRadius.only(
+        borderRadius:const BorderRadius.only(
             bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
         child: Container(
           width: 222,
@@ -29,12 +31,12 @@ class BottomSheetHolidayCard extends StatelessWidget {
               Container(
                 height: 3,
                 color: Colors.red,
-                child: SizedBox(
+                child: const SizedBox(
                   width: 222,
                   height: 0,
                 ),
               ),
-              SizedBox(
+             const SizedBox(
                 height: 5,
               ),
               Row(
@@ -47,7 +49,7 @@ class BottomSheetHolidayCard extends StatelessWidget {
                         child: Text(
                           prov[index].name,
                           overflow: TextOverflow.fade,
-                          style: TextStyle(
+                          style:const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w600),
                         )),
                   ),
@@ -61,29 +63,29 @@ class BottomSheetHolidayCard extends StatelessWidget {
                   )
                 ],
               ),
-              SizedBox(
+             const SizedBox(
                 height: 5,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 4.0, top: 0, bottom: 2),
                 child: Text('From: ' + DateFormat('dd-MM-yyy').format(prov[index].startDate),
-                    style: TextStyle(
+                    style:const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w200,
                         color: Colors.grey)),
               ),
-              SizedBox(
+             const SizedBox(
                 height: 3,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 4.0, top: 4, bottom: 0),
                 child: Text('To: ' + DateFormat('dd-MM-yyy').format(prov[index].endDate),
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w200,
                         color: Colors.grey)),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
             ],

@@ -74,14 +74,14 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 16, top: 30, bottom: 10),
-              child: Text(
+              padding:const EdgeInsets.only(left: 16, top: 30, bottom: 10),
+              child:const Text(
                 '   AMU Digital Events',
-                style: TextStyle(color: Colors.white, fontSize: 25),
+                style:const TextStyle(color: Colors.white, fontSize: 25),
               ),
             ),
             ClipRRect(
-              borderRadius: BorderRadius.only(
+              borderRadius:const BorderRadius.only(
                   topLeft: Radius.circular(40), topRight: Radius.circular(40)),
               child: Container(
                   decoration: BoxDecoration(
@@ -110,7 +110,7 @@ class _HomeState extends State<Home> {
                             maxHeight: mq.height * 0.72,
                             minHeight: mq.height * 0.2),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.only(
+                          borderRadius:const BorderRadius.only(
                               topLeft: Radius.circular(40),
                               topRight: Radius.circular(40)),
                           child: Container(
@@ -125,9 +125,9 @@ class _HomeState extends State<Home> {
                                       title: Padding(
                                         padding:
                                             const EdgeInsets.only(left: 15.0),
-                                        child: Text(
+                                        child:const Text(
                                           'Events',
-                                          style: TextStyle(
+                                          style:const TextStyle(
                                               letterSpacing: 2,
                                               color: Colors.white,
                                               fontSize: 25),

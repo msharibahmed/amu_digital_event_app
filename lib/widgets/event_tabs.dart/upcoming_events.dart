@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/event_card/event_card.dart';
 import '../../providers/https.dart';
-import '../event_card.dart';
-
 
 class UpComingEvents extends StatelessWidget {
+  final Size mq;
+
   const UpComingEvents({
     @required this.mq,
   });
 
-  final Size mq;
-
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<Https>(context);
+    final data = Provider.of<Https>(context, listen: false);
     return data.upcomingEventList.length == 0
         ? Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                Text('No Upcoming Events!'),
+                const Text('No Upcoming Events!'),
                 Image.network(
                   'https://www.clubr.in/images/no-events-1.png',
                   fit: BoxFit.contain,
