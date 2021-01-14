@@ -1,16 +1,16 @@
 import 'package:flutter/foundation.dart';
 
-class NoticeModel {
+class EntranceModel {
   final String id;
   final String name;
-  final DateTime startDate;
-  final DateTime endDate;
+  final String course;
+  final DateTime date;
   final String url;
 
-  NoticeModel(
+  EntranceModel(
       {@required this.id,
-      @required this.startDate,
-      @required this.endDate,
+      @required this.course,
+      @required this.date,
       @required this.url,
       @required this.name});
 }

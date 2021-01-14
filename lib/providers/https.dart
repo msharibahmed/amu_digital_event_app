@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'package:amui_digital_event_app/models/notice_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 import '../models/exam_model.dart';
 import '../models/holiday_model.dart';
+import '../models/entrance_model.dart';
 import '../models/event_model.dart';
 
 class Https with ChangeNotifier {
@@ -62,11 +64,34 @@ class Https with ChangeNotifier {
     return [..._examList];
   }
 
+  //entrance list
+  List<EntranceModel> _entranceList = [];
+  List<EntranceModel> get entranceList {
+    return [..._entranceList];
+  }
+
+  //notice list
+  List<NoticeModel> _noticeList = [];
+  List<NoticeModel> get noticeList {
+    return [..._noticeList];
+  }
+
+//event marker on calendar
   Map<DateTime, List<dynamic>> get eventsCalendarMarker {
     Map<DateTime, List<dynamic>> temp = Map();
 
     for (var i = 0; i < _eventsList.length; i++) {
       temp[_eventsList[i].startDate] = [i];
+    }
+    return temp;
+  }
+
+//holiday marker on calendar
+  Map<DateTime, List<dynamic>> get holidaysCalendarMarker {
+    Map<DateTime, List<dynamic>> temp = Map();
+
+    for (var i = 0; i < _holidayList.length; i++) {
+      temp[_holidayList[i].startDate] = [i];
     }
     return temp;
   }
@@ -89,7 +114,7 @@ class Https with ChangeNotifier {
   List<HolidayModel> selectedDayHoliday(DateTime selectedDate) {
     List<HolidayModel> temp = [];
     _holidayList.forEach((holiday) {
-       var holidayDate = holiday.startDate;
+      var holidayDate = holiday.startDate;
       if (selectedDate.day == holidayDate.day &&
           selectedDate.month == holidayDate.month &&
           selectedDate.year == holidayDate.year) {
@@ -178,6 +203,58 @@ class Https with ChangeNotifier {
       print(_examList);
     } catch (error) {
       print(error.toString() + 'error in getExams http call ');
+    }
+    notifyListeners();
+  }
+//get all entrances call method
+
+  Future<void> getEntrances() async {
+    const url =
+        "https://controllerexams.herokuapp.com/api/v1/calender/entrances";
+    try {
+      final response = await http.get(url);
+      final resBody = jsonDecode(response.body);
+      // print(resBody);
+
+      List<EntranceModel> loadedEntrances = [];
+      resBody.forEach((entrance) {
+        loadedEntrances.add(EntranceModel(
+            id: entrance['id'],
+            name: entrance['name'],
+            course: entrance['course'],
+            url: entrance['url'],
+            date: DateTime.parse(entrance['date'])));
+      });
+      _entranceList = loadedEntrances;
+      print(_entranceList);
+    } catch (error) {
+      print(error.toString() + 'error in getEntrances http call ');
+    }
+    notifyListeners();
+  }
+  //get all notices call method
+
+  Future<void> getNotices() async {
+    const url =
+        "https://controllerexams.herokuapp.com/api/v1/calender/notifications";
+    try {
+      final response = await http.get(url);
+      final resBody = jsonDecode(response.body);
+      // print(resBody);
+
+      List<NoticeModel> loadedNotices = [];
+      resBody.forEach((notice) {
+        loadedNotices.add(NoticeModel(
+            id: notice['id'],
+            name: notice['name'],
+            url: notice['url'],
+            startDate: DateTime.parse(notice['start_date']),
+            endDate: DateTime.parse(notice['end_date'])));
+      });
+      _noticeList = loadedNotices;
+      print(_noticeList);
+    } catch (error) {
+      print(error.toString() + 'error in getNotices http call ');
     }
     notifyListeners();
   }

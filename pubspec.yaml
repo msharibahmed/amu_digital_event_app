@@ -57,12 +57,19 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/icons/events.png
+    - assets/icons/events_filled.png
     - assets/icons/holiday.png
+    - assets/icons/holiday_filled.png
     - assets/icons/notice.png
+    - assets/icons/notice_filled.png
     - assets/icons/add_reminder.png
     - assets/icons/reminder_added.png
     - assets/icons/settings.png
+    - assets/icons/settings_filled.png
     - assets/icons/exam.png
+    - assets/icons/exam_filled.png
+    - assets/icons/exam_loading.png
+    - assets/icons/amulogo.png
     - assets/flares/wait.flr
   #   - images/a_dot_ham.jpeg
 

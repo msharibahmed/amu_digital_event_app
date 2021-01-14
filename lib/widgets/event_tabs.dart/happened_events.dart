@@ -17,16 +17,17 @@ class HappenedEvents extends StatelessWidget {
     return data.happenedEventList.length == 0
         ? Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                const Text('No Happened Events!'),
-                Image.network(
-                  'https://www.clubr.in/images/no-events-1.png',
-                  fit: BoxFit.contain,
-                )
-              ],
-            ),
-          )
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const Text('No Happened Events!'),
+                  Image.network(
+                    'https://www.clubr.in/images/no-events-1.png',
+                    fit: BoxFit.contain,
+                  )
+                ],
+              ),
+            ))
         : Padding(
             padding: const EdgeInsets.only(top: 16),
             child: ListView.builder(

@@ -17,16 +17,17 @@ class UpComingEvents extends StatelessWidget {
     return data.upcomingEventList.length == 0
         ? Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                const Text('No Upcoming Events!'),
-                Image.network(
-                  'https://www.clubr.in/images/no-events-1.png',
-                  fit: BoxFit.contain,
-                )
-              ],
-            ),
-          )
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const Text('No Upcoming Events!'),
+                  Image.network(
+                    'https://www.clubr.in/images/no-events-1.png',
+                    fit: BoxFit.contain,
+                  )
+                ],
+              ),
+            ))
         : Padding(
             padding: EdgeInsets.only(top: 16),
             child: ListView.builder(

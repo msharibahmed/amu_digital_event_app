@@ -84,7 +84,7 @@ class HolidayCard extends StatelessWidget {
                   children: [
                     Text(
                       DateFormat('dd').format(data[index].startDate),
-                      style: TextStyle(fontSize: 40),
+                      style: TextStyle(fontSize: 30),
                     ),
                     Text(DateFormat('EEE').format(data[index].startDate))
                   ]),
