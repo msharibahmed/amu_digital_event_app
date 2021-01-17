@@ -8,6 +8,7 @@ import '../widgets/bottom_sheet/bottom_sheet.dart';
 import '../widgets/event_tabs.dart/happened_events.dart';
 import '../widgets/event_tabs.dart/ongoing_events.dart';
 import '../widgets/event_tabs.dart/upcoming_events.dart';
+import '../widgets/event_card/filter_events.dart';
 import '../providers/https.dart';
 
 class Events extends StatefulWidget {
@@ -44,6 +45,7 @@ class _EventsState extends State<Events> {
         Provider.of<Https>(context, listen: false).eventsCalendarMarker;
     final holidaysCalendarMarkers =
         Provider.of<Https>(context, listen: false).holidaysCalendarMarker;
+    final sortEvent = Provider.of<Https>(context).sortEvent;
     // print(events);
     List<String> tabNames = const ['Upcoming', 'Ongoing', 'Happened'];
 
@@ -65,7 +67,11 @@ class _EventsState extends State<Events> {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text('Filter Events'),
         icon: const Icon(Icons.sort),
-        onPressed: () {},
+        onPressed: () {
+          showBarModalBottomSheet(
+              context: context,
+              builder: (context) => FilterEvents());
+        },
       ),
       backgroundColor: Colors.indigo[900],
       body: SingleChildScrollView(
@@ -155,7 +161,7 @@ class _EventsState extends State<Events> {
                                                     color: Colors.white,
                                                     fontSize: 25),
                                               ),
-                                              Spacer(),
+                                              const Spacer(),
                                               Align(
                                                   alignment:
                                                       Alignment.centerRight,
@@ -166,7 +172,8 @@ class _EventsState extends State<Events> {
                                                             top: 0,
                                                             bottom: 20),
                                                     child: Text(
-                                                      'Sorted By: ' + 'Faculty',
+                                                      'Sorted By: ' +
+                                                          sortEvent,
                                                       style: TextStyle(
                                                           color: Colors.white,
                                                           fontWeight:

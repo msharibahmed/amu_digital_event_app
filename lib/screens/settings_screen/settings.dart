@@ -37,22 +37,18 @@ class Settings extends StatelessWidget {
                       child: Container(
                           color: Colors.white,
                           height: mq.height * 0.8025,
-                          child: ListView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
+                              const SizedBox(
+                                height: 40,
+                              ),
                               settingsCard(
                                   Icons.notifications,
                                   'Manage Notifications',
-                                  'Reminders & notifications',
-                                  () {Navigator.pushNamed(
-                                    context, ManageNotifications.routeName);}),
-                              settingsCard(
-                                  Icons.wb_sunny, 'Theme', 'Change theme', () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => CupertinoAlertDialog(
-                                          title: Text('choose Theme'),
-                                          // content: Column(children: [RadioListTile()],,
-                                        ));
+                                  'Reminders & notifications', () {
+                                Navigator.pushNamed(
+                                    context, ManageNotifications.routeName);
                               }),
                               settingsCard(Icons.help_center, 'Help',
                                   'Contact us & privacy policy', () {
@@ -61,7 +57,10 @@ class Settings extends StatelessWidget {
                                     context, HelpScreen.routeName);
                               }),
                               settingsCard(Icons.developer_board, 'Developers',
-                                  'About developers', () {})
+                                  'About developers', () {}),
+                              const SizedBox(
+                                height: 50,
+                              ),
                             ],
                           )),
                     )
@@ -76,29 +75,25 @@ class Settings extends StatelessWidget {
     return GestureDetector(
       onTap: func,
       child: Card(
-        elevation: 5,
-        shadowColor: Colors.indigo,
-        margin: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ListTile(
-              leading: Icon(
-                icon,
-                color: Colors.black,
-              ),
-              title: Text(
-                title,
-                style: const TextStyle(fontSize: 15),
-              ),
-              subtitle: Text(
-                subtitle,
-                style: const TextStyle(fontSize: 12),
-              ),
-            )
-          ],
-        ),
-      ),
+          elevation: 5,
+          shadowColor: Colors.indigo,
+          margin:
+              const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 25),
+          child: ListTile(
+            contentPadding: const EdgeInsets.all(10),
+            leading: Icon(
+              icon,
+              color: Colors.black,
+            ),
+            title: Text(
+              title,
+              style: const TextStyle(fontSize: 15),
+            ),
+            subtitle: Text(
+              subtitle,
+              style: const TextStyle(fontSize: 12),
+            ),
+          )),
     );
   }
 }

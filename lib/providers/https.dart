@@ -258,4 +258,15 @@ class Https with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  var sortEvent = 'All';
+  void changeSortEvent(String name, int identifier) {
+    sortEvent = name;
+    if (identifier == 0) {
+
+    } else if (identifier == 1) {
+      _eventsList.
+    } else {}
+    notifyListeners();
+  }
 }

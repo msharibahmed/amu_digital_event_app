@@ -11,12 +11,15 @@ class Entrances extends StatelessWidget {
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
     final data = Provider.of<Https>(context, listen: false).entranceList;
+
     return Scaffold(
-        floatingActionButton: FloatingActionButton.extended(
-          label: const Text('Filter Entraces'),
-          icon: const Icon(Icons.sort),
-          onPressed: () {},
-        ),
+        floatingActionButton: data.length == 0
+            ? null
+            : FloatingActionButton.extended(
+                label: const Text('Filter Entraces'),
+                icon: const Icon(Icons.sort),
+                onPressed: () {},
+              ),
         backgroundColor: Colors.indigo[900],
         body: SingleChildScrollView(
           child: Column(
@@ -32,7 +35,7 @@ class Entrances extends StatelessWidget {
                           color: Colors.white, fontSize: 35, letterSpacing: 2),
                     )),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               ClipRRect(
@@ -46,28 +49,40 @@ class Entrances extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(right: 30, top: 10),
-                              child: const Text(
-                                'Sorted By: ' + 'Name',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700, fontSize: 18),
-                              ),
-                            )),
+                        if (data.length != 0)
+                          Align(
+                              alignment: Alignment.centerRight,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(right: 30, top: 10),
+                                child: const Text(
+                                  'Sorted By: ' + 'Name',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 18),
+                                ),
+                              )),
                         ConstrainedBox(
                             constraints: BoxConstraints(
-                              maxHeight: mq.height * 0.786,
+                              maxHeight: data.length == 0
+                                  ? mq.height * 0.82
+                                  : mq.height * 0.786,
                             ),
-                            child: ListView.builder(
-                              itemBuilder: (context, index) => Padding(
-                                padding: const EdgeInsets.only(bottom: 10),
-                                child: EntranceCard(index: index),
-                              ),
-                              itemCount: data.length,
-                            ))
+                            child: data.length == 0
+                                ? Center(
+                                    child: Image.asset(
+                                      'assets/icons/exam_loading.png',
+                                      fit: BoxFit.fill,
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    itemBuilder: (context, index) => Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 10),
+                                      child: EntranceCard(index: index),
+                                    ),
+                                    itemCount: data.length,
+                                  ))
                       ],
                     )),
               )

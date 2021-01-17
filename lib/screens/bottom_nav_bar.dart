@@ -58,12 +58,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
     //   {'settings': 'Setting'}
     // ];
     var bottomNavNames = [
-      {CupertinoIcons.calendar_today: 'Events'},
-      {CupertinoIcons.burst: 'Holidays'},
+      {CupertinoIcons.calendar: 'Events'},
+      {CupertinoIcons.star: 'Holidays'},
       {CupertinoIcons.bell: 'Notices'},
       {CupertinoIcons.news: 'Entrances'},
       {CupertinoIcons.book: 'Exams'},
-      {CupertinoIcons.bars: 'Setting'}
+      {CupertinoIcons.settings: 'Setting'}
     ];
     return SafeArea(
       top: false,
