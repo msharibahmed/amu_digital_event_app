@@ -265,7 +265,7 @@ class Https with ChangeNotifier {
     if (identifier == 0) {
 
     } else if (identifier == 1) {
-      _eventsList.
+      // _eventsList.
     } else {}
     notifyListeners();
   }

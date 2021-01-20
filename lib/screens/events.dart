@@ -8,7 +8,7 @@ import '../widgets/bottom_sheet/bottom_sheet.dart';
 import '../widgets/event_tabs.dart/happened_events.dart';
 import '../widgets/event_tabs.dart/ongoing_events.dart';
 import '../widgets/event_tabs.dart/upcoming_events.dart';
-import '../widgets/event_card/filter_events.dart';
+import '../widgets/filter_events.dart';
 import '../providers/https.dart';
 
 class Events extends StatefulWidget {
@@ -146,7 +146,7 @@ class _EventsState extends State<Events> {
                               ),
                               child: DefaultTabController(
                                 child: Scaffold(
-                                  backgroundColor: Colors.indigo[100],
+                                  backgroundColor: Colors.blue[50],
                                   appBar: AppBar(
                                       centerTitle: false,
                                       title: Padding(

@@ -17,12 +17,16 @@ class UpComingEvents extends StatelessWidget {
     return data.upcomingEventList.length == 0
         ? Padding(
             padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
+            child: Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text('No Upcoming Events!'),
-                  Image.network(
-                    'https://www.clubr.in/images/no-events-1.png',
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Image.asset(
+                    'assets/images/events_empty.jpg',
                     fit: BoxFit.contain,
                   )
                 ],

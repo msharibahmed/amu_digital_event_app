@@ -70,6 +70,7 @@ flutter:
     - assets/icons/exam_filled.png
     - assets/icons/exam_loading.png
     - assets/icons/amulogo.png
+    - assets/images/events_empty.jpg
     - assets/flares/wait.flr
   #   - images/a_dot_ham.jpeg
 

@@ -17,12 +17,16 @@ class HappenedEvents extends StatelessWidget {
     return data.happenedEventList.length == 0
         ? Padding(
             padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
+            child: Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text('No Happened Events!'),
-                  Image.network(
-                    'https://www.clubr.in/images/no-events-1.png',
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Image.asset(
+                    'assets/images/events_empty.jpg',
                     fit: BoxFit.contain,
                   )
                 ],

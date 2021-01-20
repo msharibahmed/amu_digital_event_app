@@ -42,7 +42,16 @@ class Notices extends StatelessWidget {
                         constraints: BoxConstraints(
                           maxHeight: mq.height * 0.826,
                         ),
-                        child: ListView.builder(
+                        child:data.length == 0
+                            ? Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+
+                                  children: [
+                                Icon(Icons.notifications),
+                                Text('Nothing to show!')
+                              ]))
+                            : ListView.builder(
                           itemBuilder: (context, index) =>
                               NoticeCard(index: index),
                           itemCount: data.length,
