@@ -1,13 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:locally/locally.dart';
+// import 'package:locally/locally.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class ReminderDialog extends StatefulWidget {
   final DateTime lastDate;
+  final DateTime startDate;
   final String reminderTiltle;
   final String reminderMessage;
   ReminderDialog(
       {@required this.lastDate,
+      @required this.startDate,
       @required this.reminderTiltle,
       @required this.reminderMessage});
 
@@ -16,29 +20,45 @@ class ReminderDialog extends StatefulWidget {
 }
 
 class _ReminderDialogState extends State<ReminderDialog> {
+  FlutterLocalNotificationsPlugin fl = FlutterLocalNotificationsPlugin();
+
+  void initState() {
+    super.initState();
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings('amulogo');
+    var initializationSettingsIOs = IOSInitializationSettings();
+    var initSetttings = InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOs);
+
+    fl.initialize(initSetttings, onSelectNotification: onSelectNotification);
+  }
+
+  Future onSelectNotification(String payload) {
+    return null;
+  }
+
+  showNotificationn(int id, DateTime scheduleDate) async {
+    var android = AndroidNotificationDetails('id', 'channel ', 'description',
+        icon: 'events_filled',
+        color: Colors.green,
+        category: 'event',
+        largeIcon: DrawableResourceAndroidBitmap('amulogo'),
+        priority: Priority.High,
+        importance: Importance.Max);
+    var iOS = IOSNotificationDetails();
+    var platform = new NotificationDetails(android, iOS);
+    await fl.schedule(
+        id,
+        widget.reminderTiltle + ':  ' + widget.reminderMessage,
+        DateFormat('dd MMM @hh:mm aaa-').format(widget.startDate) +
+            DateFormat('dd MMM @hh:mm aaa').format(widget.lastDate),
+        scheduleDate,
+        platform);
+  }
+
   var reminderDate = DateTime.now().subtract(
       Duration(hours: TimeOfDay.now().hour, minutes: TimeOfDay.now().minute));
   var reminderTime = TimeOfDay.now();
-  showNotification(int reminderDuration) {
-    var message = widget.reminderMessage +
-        '\n' +
-        '@' +
-        DateFormat('hh:mm aaa').format(widget.lastDate) +
-        DateFormat(' dd MMM, yyyy').format(widget.lastDate);
-    Locally locally;
-
-    locally = Locally(
-      pageRoute: null,
-      context: context,
-      payload: 'test',
-      appIcon: 'amulogo',
-    );
-    locally.schedule(
-        title: widget.reminderTiltle,
-        message: message,
-        duration: Duration(seconds: reminderDuration));
-    print(message);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,18 +81,19 @@ class _ReminderDialogState extends State<ReminderDialog> {
               children: [
                 Text(DateFormat('dd MMM, yyyy').format(reminderDate)),
                 IconButton(
-                    icon: const Icon(Icons.event),
+                    icon: const Icon(CupertinoIcons.calendar, size: 30),
                     onPressed: () {
                       showDatePicker(
                               context: context,
                               initialDate: DateTime.now(),
-                              // firstDate: widget.lastDate,
                               firstDate: DateTime.now(),
-                              lastDate:
-                                  DateTime.parse('2021-01-24 12:00:00.000Z'))
+                              lastDate: widget.lastDate)
                           .then((chosenDate) {
                         setState(() {
-                          reminderDate = chosenDate;
+                          reminderDate = chosenDate ??
+                              DateTime.now().subtract(Duration(
+                                  hours: TimeOfDay.now().hour,
+                                  minutes: TimeOfDay.now().minute));
                           // print(reminderDate);
                         });
                       });
@@ -99,7 +120,7 @@ class _ReminderDialogState extends State<ReminderDialog> {
               children: [
                 Text(reminderTime.format(context)),
                 IconButton(
-                    icon: const Icon(Icons.watch_rounded),
+                    icon: const Icon(CupertinoIcons.time, size: 30),
                     onPressed: () {
                       showTimePicker(
                         context: context,
@@ -128,15 +149,13 @@ class _ReminderDialogState extends State<ReminderDialog> {
                 }),
             FlatButton(
               onPressed: () {
-                int reminderDuration = DateTime.now()
-                    .difference(reminderDate.add(Duration(
-                        hours: reminderTime.hour,
-                        minutes: reminderTime.minute)))
-                    .inSeconds;
-                showNotification(reminderDuration < 0
-                    ? reminderDuration * (-1)
-                    : reminderDuration);
-                print(reminderDuration);
+                DateTime reminderDuration = reminderDate.add(Duration(
+                    hours: reminderTime.hour, minutes: reminderTime.minute));
+                var d = DateTime.now();
+                var randomInteger =
+                    d.day + d.month + d.year + d.hour + d.minute + d.second;
+                showNotificationn(randomInteger, reminderDuration);
+                // print(reminderDuration);
                 Navigator.pop(context);
                 // Scaffold.of(context).showSnackBar(SnackBar(
                 //   content: Text('Reminder Added'),

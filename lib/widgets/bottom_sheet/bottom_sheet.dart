@@ -16,7 +16,7 @@ class EventBottomSheet extends StatelessWidget {
     final prov = Provider.of<Https>(context, listen: false);
     print(prov.selectedDayEvents(selectedDate));
     return Container(
-      height: MediaQuery.of(context).size.height * 0.65,
+      height: MediaQuery.of(context).size.height * 0.8,
       padding: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -72,7 +72,7 @@ class EventBottomSheet extends StatelessWidget {
           Container(
               color: Colors.grey[200],
               width: double.infinity,
-              height: 120,
+              height: 130,
               child: prov.selectedDayEvents(selectedDate).length == 0
                   ?const Center(
                       child:const Text('No Events!'),

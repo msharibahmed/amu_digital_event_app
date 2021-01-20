@@ -39,10 +39,7 @@ class BottomSheetHolidayCard extends StatelessWidget {
              const SizedBox(
                 height: 5,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
+               Container(
                     width: 180,
                     child: Padding(
                         padding: const EdgeInsets.only(left: 4.0, right: 4),
@@ -53,16 +50,30 @@ class BottomSheetHolidayCard extends StatelessWidget {
                               fontSize: 18, fontWeight: FontWeight.w600),
                         )),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(
-                      'assets/icons/' + 'add_reminder.png',
-                      width: 18,
-                      height: 18,
-                    ),
-                  )
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Container(
+              //       width: 180,
+              //       child: Padding(
+              //           padding: const EdgeInsets.only(left: 4.0, right: 4),
+              //           child: Text(
+              //             prov[index].name,
+              //             overflow: TextOverflow.fade,
+              //             style:const TextStyle(
+              //                 fontSize: 18, fontWeight: FontWeight.w600),
+              //           )),
+              //     ),
+              //     Padding(
+              //       padding: const EdgeInsets.all(8.0),
+              //       child: Image.asset(
+              //         'assets/icons/' + 'add_reminder.png',
+              //         width: 18,
+              //         height: 18,
+              //       ),
+              //     )
+              //   ],
+              // ),
              const SizedBox(
                 height: 5,
               ),

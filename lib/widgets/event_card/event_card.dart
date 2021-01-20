@@ -5,8 +5,6 @@ import 'package:intl/intl.dart';
 import '../../models/event_model.dart';
 import 'reminder_dialog.dart';
 
-
-
 class EventCard extends StatefulWidget {
   final int index;
   final List<EventModel> data;
@@ -23,8 +21,8 @@ class _EventCardState extends State<EventCard> {
       padding: const EdgeInsets.all(5.0),
       child: Card(
         elevation: 5,
-        shape:const RoundedRectangleBorder(
-            borderRadius:const BorderRadius.all(Radius.circular(10))),
+        shape: const RoundedRectangleBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(10))),
         child: ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           child: Container(
@@ -41,12 +39,12 @@ class _EventCardState extends State<EventCard> {
                       : widget.data[0].endDate.isBefore(DateTime.now())
                           ? Colors.red
                           : Colors.indigo,
-                  child:const SizedBox(
+                  child: const SizedBox(
                     width: 4,
                     height: 90,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 6,
                 ),
                 Column(
@@ -62,7 +60,7 @@ class _EventCardState extends State<EventCard> {
                             '-' +
                             DateFormat('dd MMM')
                                 .format(widget.data[widget.index].endDate),
-                        style:const TextStyle(
+                        style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w300),
                       ),
                     ),
@@ -71,7 +69,7 @@ class _EventCardState extends State<EventCard> {
                           const EdgeInsets.only(left: 4.0, top: 4, bottom: 2),
                       child: Text(
                         widget.data[widget.index].name,
-                        style:const TextStyle(
+                        style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -98,35 +96,38 @@ class _EventCardState extends State<EventCard> {
                                 (widget.data[widget.index].online
                                     ? 'Online'
                                     : 'Offline'),
-                            style:const TextStyle(
+                            style: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w200,
                                 color: Colors.grey))),
                   ],
                 ),
-               const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return ReminderDialog(
-                              reminderMessage: widget.data[widget.index].name,
-                              // lastDate: widget.data[widget.index].endDate,
-                              lastDate: DateTime.now(),
-                              reminderTiltle: 'Event Reminder',
-                            );
-                          });
-                    },
-                    child: Image.asset(
-                      'assets/icons/' + 'add_reminder.png',
-                      width: 25,
-                      height: 25,
+                const Spacer(),
+                if (!widget.data[0].endDate.isBefore(DateTime.now()))
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              
+                              return ReminderDialog(
+                                reminderMessage: widget.data[widget.index].name,
+                                lastDate: widget.data[widget.index].endDate,
+                                startDate: DateTime.now(),
+                                reminderTiltle: 'Event Reminder',
+                              );
+                            });
+                      },
+                      child: Image.asset(
+                        'assets/icons/' + 'add_reminder.png',
+                        width: 25,
+                        height: 25,
+                      ),
                     ),
-                  ),
-                )
+                  )
               ],
             ),
           ),
@@ -135,4 +136,3 @@ class _EventCardState extends State<EventCard> {
     );
   }
 }
-

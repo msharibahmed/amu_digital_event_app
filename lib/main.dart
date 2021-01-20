@@ -7,10 +7,12 @@ import 'screens/bottom_nav_bar.dart';
 import 'screens/notices.dart';
 import 'screens/holidays.dart';
 import 'screens/events.dart';
-import 'screens/settings.dart';
-import 'screens/home.dart';
+import 'screens/settings_screen/settings.dart';
+import 'screens/entrances.dart';
+import 'screens/settings_screen/help.dart';
+import 'screens/settings_screen/manage_notification.dart';
 
-void main()  {
+void main() {
   runApp(MyApp());
 }
 
@@ -30,11 +32,13 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.indigo,
             primaryColor: Colors.orange),
         routes: {
-          Home.routeName: (context) => Home(),
           Notices.routeName: (context) => Notices(),
           Events.routeName: (context) => Events(),
           Holidays.routeName: (context) => Holidays(),
           Settings.routeName: (context) => Settings(),
+          Entrances.routeName: (context) => Entrances(),
+          HelpScreen.routeName: (context) => HelpScreen(),
+          ManageNotifications.routeName: (context) => ManageNotifications(),
           BottomNavBar.routeName: (context) => BottomNavBar(),
         },
         home: BottomNavBar(),
