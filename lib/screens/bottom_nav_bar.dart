@@ -71,6 +71,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         appBar: _loading
             ? AppBar(
                 title: const Text('Gathering Data, Please Wait....'),
+                
                 centerTitle: true,
                 elevation: 0,
                 backgroundColor: Colors.transparent,

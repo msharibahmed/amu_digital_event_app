@@ -65,14 +65,20 @@ class Exams extends StatelessWidget {
                                 ? mq.height * 0.82
                                 : mq.height * 0.786,
                           ),
-                          child: data.length == 0
-                              ? Center(
-                                  child: Image.asset(
+                          child:data.length == 0
+                            ? Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+
+                                  children: [
+                                Image.asset(
                                     'assets/icons/exam_loading.png',
                                     fit: BoxFit.fill,
                                   ),
-                                )
-                              : ListView.builder(
+                                Text('Nothing to show!')
+                              ]))
+                            :
+                            ListView.builder(
                                   itemBuilder: (context, index) => Padding(
                                     padding: const EdgeInsets.only(bottom: 10),
                                     child: ExamsCard(index: index),

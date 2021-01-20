@@ -4,9 +4,6 @@ import 'package:provider/provider.dart';
 import '../../providers/https.dart';
 import '../../widgets/event_card/event_card.dart';
 
-
-
-
 class OngoingEvents extends StatelessWidget {
   final Size mq;
 
@@ -14,19 +11,22 @@ class OngoingEvents extends StatelessWidget {
     @required this.mq,
   });
 
-
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<Https>(context,listen: false);
+    final data = Provider.of<Https>(context, listen: false);
     return data.ongoingEventList.length == 0
         ? Padding(
             padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
+            child: Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text('No Ongoing Events!'),
-                  Image.network(
-                    'https://www.clubr.in/images/no-events-1.png',
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Image.asset(
+                    'assets/images/events_empty.jpg',
                     fit: BoxFit.contain,
                   )
                 ],

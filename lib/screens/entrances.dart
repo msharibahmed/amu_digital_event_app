@@ -70,11 +70,16 @@ class Entrances extends StatelessWidget {
                             ),
                             child: data.length == 0
                                 ? Center(
-                                    child: Image.asset(
-                                      'assets/icons/exam_loading.png',
-                                      fit: BoxFit.fill,
-                                    ),
-                                  )
+                                    child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                        Image.asset(
+                                          'assets/icons/exam_loading.png',
+                                          fit: BoxFit.fill,
+                                        ),
+                                        Text('Nothing to show!')
+                                      ]))
                                 : ListView.builder(
                                     itemBuilder: (context, index) => Padding(
                                       padding:
