@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:amui_digital_event_app/helper/DUMMY_DATA.dart';
 import 'package:amui_digital_event_app/models/notice_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -133,6 +134,7 @@ class Https with ChangeNotifier {
       // print(resBody);
 
       List<EventModel> loadedEvents = [];
+
       resBody.forEach((event) {
         loadedEvents.add(EventModel(
             id: event['id'],
@@ -146,6 +148,8 @@ class Https with ChangeNotifier {
             online: event['online']));
       });
       _eventsList = loadedEvents;
+      //dummylist
+      _eventsList = eventDummyList;
       print(_eventsList);
     } catch (error) {
       print(error.toString() + 'error in getEvents http call ');
@@ -263,7 +267,6 @@ class Https with ChangeNotifier {
   void changeSortEvent(String name, int identifier) {
     sortEvent = name;
     if (identifier == 0) {
-
     } else if (identifier == 1) {
       // _eventsList.
     } else {}
